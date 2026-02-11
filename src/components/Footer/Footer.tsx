@@ -9,6 +9,29 @@ type FooterProps = {
   onFilterChange: (filter: TodoFilter) => void;
 };
 
+type FilterLink = {
+  value: TodoFilter;
+  href: string;
+  label: string;
+  dataCy: string;
+};
+
+const filterLinks: FilterLink[] = [
+  { value: 'all', href: '#/', label: 'All', dataCy: 'FilterLinkAll' },
+  {
+    value: 'active',
+    href: '#/active',
+    label: 'Active',
+    dataCy: 'FilterLinkActive',
+  },
+  {
+    value: 'completed',
+    href: '#/completed',
+    label: 'Completed',
+    dataCy: 'FilterLinkCompleted',
+  },
+];
+
 export const Footer = ({
   todos,
   activeTodosCounter,
@@ -25,40 +48,20 @@ export const Footer = ({
 
           {/* Active link should have the 'selected' class */}
           <nav className="filter" data-cy="Filter">
-            <a
-              href="#/"
-              className={classNames('filter__link', {
-                selected: filterBy === 'all',
-              })}
-              data-cy="FilterLinkAll"
-              onClick={() => onFilterChange('all')}
-            >
-              All
-            </a>
-
-            <a
-              href="#/active"
-              className={classNames('filter__link', {
-                selected: filterBy === 'active',
-              })}
-              data-cy="FilterLinkActive"
-              onClick={() => onFilterChange('active')}
-            >
-              Active
-            </a>
-
-            <a
-              href="#/completed"
-              className={classNames('filter__link', {
-                selected: filterBy === 'completed',
-              })}
-              data-cy="FilterLinkCompleted"
-              onClick={() => onFilterChange('completed')}
-            >
-              Completed
-            </a>
+            {filterLinks.map(({ value, href, label, dataCy }: FilterLink) => (
+              <a
+                key={value}
+                href={href}
+                className={classNames('filter__link', {
+                  selected: filterBy === value,
+                })}
+                data-cy={dataCy}
+                onClick={() => onFilterChange(value)}
+              >
+                {label}
+              </a>
+            ))}
           </nav>
-
           {/* this button should be disabled if there are no completed todos */}
           <button
             type="button"
