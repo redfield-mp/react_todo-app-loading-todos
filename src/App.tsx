@@ -5,17 +5,17 @@ import { UserWarning } from './UserWarning';
 import { USER_ID } from './api/todos';
 import { Todo } from './types/Todo';
 import { getTodos } from './api/todos';
-import classNames from 'classnames';
 import { Header } from './components/Header';
 import { TodosList } from './components/TodosList/TodosList';
+import { TodoFilter } from './types/TodoFilter';
 import { Footer } from './components/Footer/Footer';
+import { ERROR_MESSAGES, ErrorMessage } from './types/ErrorMessages';
+import { ErrorNotification } from './components/ErrorNotification';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [filterBy, setFilterBy] = useState<'all' | 'active' | 'completed'>(
-    'all',
-  );
+  const [errorMessage, setErrorMessage] = useState<ErrorMessage | null>(null);
+  const [filterBy, setFilterBy] = useState<TodoFilter>('all');
 
   const activeTodosCounter = todos.filter(todo => !todo.completed).length;
 
@@ -37,7 +37,7 @@ export const App: React.FC = () => {
     getTodos()
       .then(setTodos)
       .catch(() => {
-        setErrorMessage('Unable to load todos');
+        setErrorMessage(ERROR_MESSAGES.LOAD_FAIL);
       });
   }, []);
 
@@ -58,7 +58,6 @@ export const App: React.FC = () => {
   return (
     <div className="todoapp">
       <h1 className="todoapp__title">todos</h1>
-
       <div className="todoapp__content">
         <Header />
         <TodosList todos={todos} filteredTodos={filteredTodos} />
@@ -69,25 +68,12 @@ export const App: React.FC = () => {
           onFilterChange={setFilterBy}
         />
       </div>
-
       {/* DON'T use conditional rendering to hide the notification */}
       {/* Add the 'hidden' class to hide the message smoothly */}
-      <div
-        data-cy="ErrorNotification"
-        className={classNames(
-          'notification is-danger is-light has-text-weight-normal',
-          { hidden: !errorMessage },
-        )}
-      >
-        <button
-          data-cy="HideErrorButton"
-          type="button"
-          className="delete"
-          onClick={() => setErrorMessage(null)}
-        />
-        {/* show only one message at a time */}
-        {errorMessage}
-      </div>
+      <ErrorNotification
+        errorMessage={errorMessage}
+        onClearError={setErrorMessage}
+      />{' '}
     </div>
   );
 };
