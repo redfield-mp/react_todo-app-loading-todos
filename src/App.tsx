@@ -7,6 +7,7 @@ import { Todo } from './types/Todo';
 import { getTodos } from './api/todos';
 import classNames from 'classnames';
 import { Header } from './components/Header';
+import { Footer } from './components/Footer/Footer';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -159,6 +160,12 @@ export const App: React.FC = () => {
             </button>
           </footer>
         )}
+        <Footer
+          todos={todos}
+          activeTodosCounter={activeTodosCounter}
+          filterBy={filterBy}
+          onFilterChange={setFilterBy}
+        />
       </div>
 
       {/* DON'T use conditional rendering to hide the notification */}
