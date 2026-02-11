@@ -2,14 +2,13 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useState } from 'react';
 import { UserWarning } from './UserWarning';
-import { USER_ID } from './api/todos';
+import { getTodos, USER_ID } from './api/todos';
 import { Todo } from './types/Todo';
-import { getTodos } from './api/todos';
+import { TodoFilter } from './types/TodoFilter';
+import { ERROR_MESSAGES, ErrorMessage } from './types/ErrorMessages';
 import { Header } from './components/Header';
 import { TodosList } from './components/TodosList/TodosList';
-import { TodoFilter } from './types/TodoFilter';
 import { Footer } from './components/Footer/Footer';
-import { ERROR_MESSAGES, ErrorMessage } from './types/ErrorMessages';
 import { ErrorNotification } from './components/ErrorNotification';
 
 export const App: React.FC = () => {
