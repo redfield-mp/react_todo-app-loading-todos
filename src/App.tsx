@@ -7,8 +7,8 @@ import { Todo } from './types/Todo';
 import { TodoFilter } from './types/TodoFilter';
 import { ERROR_MESSAGES, ErrorMessage } from './types/ErrorMessages';
 import { Header } from './components/Header';
-import { TodosList } from './components/TodosList/TodosList';
-import { Footer } from './components/Footer/Footer';
+import { TodosList } from './components/TodosList';
+import { Footer } from './components/Footer';
 import { ErrorNotification } from './components/ErrorNotification';
 
 export const App: React.FC = () => {
